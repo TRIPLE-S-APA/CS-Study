@@ -183,4 +183,58 @@ Thread가 동료 thread와 공유하는 부분 (= task)
 
 동일한 일을 수행하는 다중 스레드가 협력하여 높은 처리율(throughput)과 성능 향상을 얻을 수 있다
 
+- 자원 절약 가능
+
 스레드를 사용하면 병렬성을 높일 수 있다
+
+- CPU 여러 개 달린 컴퓨터에서만 얻을 수 있는 이점
+
+![images/03_10.png](images/03_10.png)
+
+- 프로세스는 하나 → PCB도 하나만 만들어진다
+    - 하나의 PCB 안에서 스레드마다 CPU 관련 정보(program counter, register)만 각자 가지고 있음
+
+![images/03_11.png](images/03_11.png)
+
+## Benefits of Threads
+
+***Responsiveness***
+
+- e.g.) multi-threaded Web - if one thread is blocked (e.g. network), another thread continues (e.g. display)
+- 응답성 (사용자 입장에서 빠름) - 웹 브라우저가 스레드를 여러 개 가지고 있으면, 하나의 스레드가 멀리 있는 서버에서 그림을 가져오는 중에 다른 스레드가 이미 읽어온 html 문서를 먼저 보여주면 blocked 상태보다 더 빠름
+
+***Resource Sharing***
+
+- N threads can share binary code, data, resource of the process
+- 자원 공유 - 효율적
+
+***Economy***
+
+- *creating* & *CPU switching* thread (rather than a *process*)
+- Solaris의 경우 위 두 가지 overhead가 각각 30배, 5배
+
+***Utilization of MP Architectures***
+
+- *each thread* may be running in *parallel* on a *different processor*
+
+## Implementation of Threads
+
+Some are supported by *kernel* ⇒ *Kernel Threads*
+
+- Windows 95/98/NT
+- Solaris
+- Digital UNIX, Mach
+
+: 스레드가 여러 개 있다는 사실을 운영체제 커널이 알고 있음
+
+→ 하나의 스레드에서 다른 스레드로 CPU가 넘어갈 때 커널이 CPU 스케줄링 하듯이 넘겨줌
+
+Others are supported by *library* ⇒ *User Threads*
+
+- POSIX *Pthreads*
+- Mach *C-threads*
+- Solaris *threads*
+
+: 스레드가 여러 개 있다는 사실을 운영체제는 모름 (라이브러리의 지원을 받아 유저 프로그램이 스스로 관리)
+
+Some are real-time threads
